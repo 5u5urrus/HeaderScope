@@ -15,6 +15,8 @@ def print_header(text):
     print(style + f"{text}".center(60))
     print(style + "=" * 60)
 
+
+
 def fetch_headers(url):
     try:
         response = requests.get(url)
@@ -140,10 +142,11 @@ def analyze_headers(headers):
 
     print_header("Analysis Results")
     for header, settings in required_headers.items():
+        header_values = headers.get(header, '').strip().lower()
         if header in headers:
-            header_values = headers[header].strip()
-            missing_items = [item for item in settings['expected'] if item not in header_values]
-            unwanted_items = [item for item in settings['not_expected'] if item in header_values]
+            #header_values = headers[header].strip().lower()  # Convert to lower case for case-insensitive comparison
+            missing_items = [item.lower() for item in settings['expected'] if item.lower() not in header_values]
+            unwanted_items = [item.lower() for item in settings['not_expected'] if item.lower() in header_values]
 
             if unwanted_items:
                 unwanted = ', '.join(unwanted_items)
@@ -153,7 +156,7 @@ def analyze_headers(headers):
                 result = f"{Fore.GREEN}{header}: {Fore.YELLOW}The header is set but incorrectly configured. Missing: {missing}"
             elif settings['match_type'] == 'AND' and not missing_items:
                 result = f"{Fore.GREEN}{header}: {Fore.GREEN + Style.BRIGHT}The header is set correctly."
-            elif settings['match_type'] == 'OR' and not any(item in header_values for item in settings['expected']):
+            elif settings['match_type'] == 'OR' and not any(item.lower() in header_values for item in settings['expected']):
                 expected = ', '.join(settings['expected'])
                 result = f"{Fore.GREEN}{header}: {Fore.YELLOW}The header is set but incorrectly configured. Expected any of: {expected}"
             elif settings['match_type'] == 'OR':
@@ -161,7 +164,6 @@ def analyze_headers(headers):
         else:
             result = f"{Fore.GREEN}{header}: {Fore.RED}The header is missing. {settings['info']}"
 
-        # Wrap the result to ensure it doesn't exceed 80 characters per line
         print(textwrap.fill(result, width=80, subsequent_indent='    '))
 
 def main():
