@@ -1,6 +1,8 @@
 
 # HeaderScope
 
+**HeaderGuard** is the current tool: https://headerguard.com. HeaderScope was a baby, which grew into the HeaderGuard you can find at that address. 
+
 **HeaderScope** is a straightforward tool designed to analyze and report on the security configurations of HTTP headers. It checks for best practices and common configuration errors, making it easier to enhance the security of your website.
 
 ## Features
