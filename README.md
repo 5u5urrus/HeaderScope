@@ -16,7 +16,7 @@
 Clone the repository using Git:
 
 ```bash
-git clone https://github.com/yourusername/headerscope.git
+git clone https://github.com/5u5urrus/headerscope.git
 cd headerscope
 ```
 
